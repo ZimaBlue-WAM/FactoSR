@@ -1,0 +1,61 @@
+# requirements.txt records the full set of dependencies for FactoSR
+# Pinned versions match the reference environment: /pfs/zhengshenghe/env/verl_shenghe
+# Install torch / flash-attn / vllm following their official CUDA-specific instructions.
+
+# --- Core training stack ---
+torch==2.8.0
+transformers==4.57.3
+accelerate==1.12.0
+peft==0.18.1
+tensordict==0.10.0
+torchdata==0.11.0
+triton==3.4.0
+xformers==0.0.32.post1
+flash-attn==2.8.1
+
+# --- RL / inference ---
+ray[default]==2.52.0
+vllm==0.11.0
+flashinfer-python==0.6.0
+liger-kernel==0.6.4
+
+# --- Data / dataset ---
+datasets==4.4.2
+webdataset==1.0.2
+pyarrow==22.0.0
+pandas==2.3.3
+numpy==2.2.6
+pillow==12.1.0
+av==16.0.1
+opencv-python==4.12.0.88
+opencv-python-headless==4.12.0.88
+
+# --- Multimodal utilities ---
+qwen-vl-utils==0.0.14
+einops==0.8.1
+scipy==1.17.0
+matplotlib==3.10.8
+
+# --- Config / utils ---
+hydra-core==1.4.0.dev1
+omegaconf
+pyyaml==6.0.3
+packaging==25.0
+codetiming==1.4.0
+dill==0.4.0
+pybind11==3.0.1
+pre-commit==4.5.1
+
+# --- Reward / verification ---
+latex2sympy2_extended==1.10.1
+math-verify==0.7.0
+pylatexenc==2.10
+
+# --- Serving / API ---
+fastapi==0.128.0
+uvicorn==0.40.0
+openai==2.15.0
+
+# --- Logging ---
+wandb==0.23.1
+tensorboard==2.20.0

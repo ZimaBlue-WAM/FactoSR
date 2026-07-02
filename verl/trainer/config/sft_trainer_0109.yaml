@@ -1,0 +1,155 @@
+defaults:
+  - optim: fsdp
+  - _self_
+
+data:
+  train_batch_size: 256  # Temporarily reduced for faster first batch
+  micro_batch_size: null # will be deprecated, use micro_batch_size_per_gpu
+  micro_batch_size_per_gpu: 4  # this is also val batch size
+  train_files: 
+    # - /pfs/jiangjiaxiu/data/llava_ov_4m_gemini_flash/
+    - /pfs/liwenbo/datasets/llava_ov/original
+    # - /pfs/sunhaoze/data/RefSpatial_scale_coor_unified/
+    # - /pfs/liwenbo/datasets/M4-Instruct/tars/
+    - /pfs/liwenbo/datasets/SpatialReasoningData/20251216/
+    # - /pfs/shared_datasets/SpatialReasoningData/20251114/scannet/3DGrounding/
+    # - /pfs/shared_datasets/SpatialReasoningData/20251114/mattport3d/3DGrounding/
+    # - /pfs/yijun/Openimages1M/
+    # - /pfs/jiaxiu/data/FineVision-Qwen3-VL-30B-A3B-Thinking/
+    - /pfs/yijun/datasets/benchmark_tar_short_last
+    # - /pfs/jiangjiaxiu/data/benchmark_tar_long_wo_think/
+    # - /pfs/liwenbo/datasets/benchmark_tar_long/
+    - /pfs/liwenbo/datasets/VSI-590K/tars/
+    - /pfs/zhengshenghe/Spatial_Reason/data/spatial_data/sft/Sensenova_format
+    # - /pfs/liwenbo/datasets/coco2017/tars_step3/
+    # - /pfs/jiaxiu/data/benchmark_tar/
+    # - /pfs/jiaxiu/data/benchmark_tar/
+    # - /pfs/jiaxiu/data/benchmark_tar/
+  train_sampling_ratios: [6,6,6,1,1]
+  # train_sampling_ratios: [4,4,4,1,1,1]
+  # train_sampling_ratios: [1]
+  dataset_view_types: ['llava_ov', 'scannet', 'benchmark_tar_long', 'vsi', 'Sensenova']
+  sample_counts:
+    # /pfs/jiangjiaxiu/data/llava_ov_4m_gemini_flash/: 4000000   # TODO: 替换为实际样本数
+    /pfs/liwenbo/datasets/llava_ov/original/: 5000000   # TODO: 替换为实际样本数
+    # /pfs/jiangjiaxiu/data/llava_ov_4m_gemini_flash/: 4000000   # TODO: 替换为实际样本数
+    # /pfs/sunhaoze/data/RefSpatial_scale_coor_unified/: 4800000    # TODO: 替换为实际样本数
+    # /pfs/liwenbo/datasets/M4-Instruct/tars/: 610078
+    /pfs/liwenbo/datasets/SpatialReasoningData/20251216/: 400000
+    # /pfs/shared_datasets/SpatialReasoningData/20251114/scannet/3DGrounding/: 30000
+    # /pfs/shared_datasets/SpatialReasoningData/20251114/mattport3d/3DGrounding/: 30000
+    # /pfs/yijun/Openimages1M/: 1100000
+    # /pfs/jiaxiu/data/FineVision-Qwen3-VL-30B-A3B-Thinking/: 160000
+    /pfs/yijun/datasets/benchmark_tar_short_last: 540000
+    # /pfs/jiangjiaxiu/data/benchmark_tar_long_wo_think/: 540000
+    # /pfs/liwenbo/datasets/benchmark_tar_long/: 540000
+    /pfs/liwenbo/datasets/VSI-590K/tars/: 590000
+    /pfs/zhengshenghe/Spatial_Reason/data/spatial_data/sft/Sensenova_format: 400000
+    # /pfs/liwenbo/datasets/coco2017/tars_step3/: 400000
+    # /pfs/jiaxiu/data/benchmark_tar/: 8000
+    # /pfs/jiaxiu/data/benchmark_tar/: 8000
+    /pfs/liwenbo/datasets/llava-ov-22m/Docmatix-part-01-of-10/0f145bd0-9d2f-46d3-8917-24485022c13e.tar: 1000  # TODO: 替换为实际样本数
+  val_files: /pfs/liwenbo/datasets/llava-ov-22m/Docmatix-part-01-of-10/0f145bd0-9d2f-46d3-8917-24485022c13e.tar
+  train_max_samples: -1  # set to -1 to use full dataset
+  val_max_samples: -1  # set to -1 to use full dataset
+  # Single-turn settings
+  prompt_key: question
+  response_key: answer
+  prompt_dict_keys: null
+  response_dict_keys: null
+  # Multi-turn settings
+  multiturn:
+    enable: True  # Set to true to use multi-turn dataset
+    messages_key: messages  # Key for messages list in multi-turn mode
+    tools_key: tools  # Key for tools list in multi-turn mode
+    enable_thinking_key: enable_thinking  # Whether to enable thinking in multi-turn mode
+  max_length: 10240  # Conservative: covers 95%+ samples, safer for memory
+  truncation: right  # For text-only mode; VL mode skips long samples to preserve image integrity
+  balance_dp_token: False
+  # Sequence packing: pack short sequences together to reduce padding waste
+  use_sequence_packing: True  # Set to True to enable (experimental, can save 30-50% compute)
+  remove_think: True  # Set to True to remove <think> tags from assistant messages
+  chat_template: null
+  custom_cls:
+    path: null
+    name: null
+  use_shm: False
+  # Image processing parameters for VL models (critical for memory!)
+  image_patch_size: 14  # Default for Qwen2-VL
+  # Control image resolution to reduce visual tokens (CONSERVATIVE for stability):
+  # Original MiMo-VL (max_pixels=12,845,056) → 65,536 tokens → OOM!
+  # Conservative (max_pixels=401,408) → ~2,000 tokens → Safe
+  min_pixels: 100352    # 128 * 28 * 28 ≈ 336x336 (lower quality threshold)
+  max_pixels: 401408    # 512 * 28 * 28 ≈ 634x634 (conservative, reduces tokens by 33%)
+  apply_chat_template_kwargs: {}
+model:
+  partial_pretrain: ~/models/gemma-1.1-7b-it
+  use_shm: False
+  fsdp_config:
+    model_dtype: bf16  # Changed from fp32 to save 50% memory
+    wrap_policy:
+      min_num_params: 0
+    cpu_offload: False
+    offload_params: False
+    fsdp_size: 4
+  external_lib: null
+  enable_gradient_checkpointing: True
+  trust_remote_code: True  # Required for MiMo-VL and Qwen2.5-VL models
+  lora_rank: 0  # Set to positive value to enable LoRA (e.g., 32)
+  lora_alpha: 16  # LoRA scaling factor
+  target_modules: all-linear  # Target modules for LoRA adaptation
+  use_liger: False
+  strategy: fsdp2
+  # Knowledge Distillation settings
+  distillation:
+    enable: True  # Set to True to enable KL distillation
+    teacher_model_path: /pfs/yijun/pretrained-models/MiMo-VL-7B-SFT  # Path to teacher model (e.g., ~/models/mimo-vl-7b-original)
+    kl_loss_weight: 10.0  # Weight for KL divergence loss
+    temperature: 1.0  # Temperature for softmax in KL divergence
+    use_hidden_states_kl: True  # KL mode selection:
+optim:
+  lr: 5e-6
+  vit_lr_ratio: 0.1
+  betas: [0.9, 0.95]
+  weight_decay: 0.01
+  num_warmup_steps: 500
+  lr_warmup_steps_ratio: 0.1
+  clip_grad: 1.0
+  lr_scheduler: cosine
+ulysses_sequence_parallel_size: 1
+use_remove_padding: False
+trainer:
+  default_local_dir: checkpoints/${trainer.project_name}/${trainer.experiment_name}
+  default_hdfs_dir: null
+  project_name: gsm8k-sft
+  experiment_name: test
+  total_epochs: 4
+  total_training_steps: 3000
+  logger: [ 'console', 'wandb' ]
+  seed: 1
+  save_freq: 1000
+  test_freq: -1
+  nnodes: 1
+  n_gpus_per_node: 8
+  max_ckpt_to_keep: null  # Maximum number of checkpoints to keep, set to null to keep all
+
+  # Resume mode: "auto", "disable", or "resume_path"
+  # "auto": resume from last checkpoint if available
+  # "disable": start from scratch
+  # "resume_path": resume from a user-defined path
+  resume_mode: auto
+
+  # Path to resume training from (used when resume_mode is "resume_path" or "auto")
+  resume_from_path: null
+
+  # Checkpoint configuration
+  checkpoint:
+    # What to include in saved checkpoints
+    # 'hf_model': saves complete HuggingFace format model (merged, single file, can use directly)
+    # 'model': saves FSDP sharded format (4 separate files, faster but needs merging)
+    # 'optimizer', 'extra': saves training state for resuming
+    save_contents: ["model", "optimizer", "extra", "hf_model"]  # Added 'hf_model' for complete model
+
+    # For more flexibility, you can specify the contents to load from the checkpoint.
+    load_contents: ["model", "optimizer", "extra"]  # Don't load hf_model (use sharded for faster resume)
+  device: cuda
