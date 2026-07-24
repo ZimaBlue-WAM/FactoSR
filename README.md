@@ -120,7 +120,15 @@ Apache License 2.0. See [LICENSE](LICENSE) for details.
 This project is built upon several excellent open-source works. We sincerely thank the authors and communities for making them available: [VeRL](https://github.com/volcengine/verl), [DAPO](https://github.com/BytedTsinghua-SIA/DAPO), [vLLM](https://github.com/vllm-project/vllm), [Qwen3-VL](https://github.com/QwenLM/Qwen3-VL), [VLMEvalKit](https://github.com/open-compass/VLMEvalKit).
 
 ## Citation
+If you find it help, please cite and star this project. 😊
 
 ```
-
+@article{yang2026factosr,
+  title={Unfold The World: Factorize 4D Properties in Reinforcing Spatial Reasoning},
+  author={Yijun Yang and Shenghe Zheng and Wenbo Li and Jianhui Liu and Haoze Sun and 
+      Yanbing Zhang and Jiaxiu Jiang and Lin Song and Haoyang Huang and Nan Duan and Lei Zhu},
+  journal={arXiv preprint arXiv:26xx},
+  year={2026}
+}
 ```
+
