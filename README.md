@@ -3,6 +3,7 @@
 <p align="center">
   <a href="https://arxiv.org/abs/"><img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg" alt="arXiv"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License: Apache-2.0"></a>
+  ![visitors](https://visitor-badge.laobi.icu/badge?page_id=scott-yjyang.FactoSR)
 </p>
 
 This repository contains the code for **FactoSR**, a framework for training Vision-Language Models (VLMs) on spatial reasoning tasks using factorized reward functions and reinforcement learning.
