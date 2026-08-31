@@ -1,4 +1,4 @@
-# Unfold The World: Factorize 4D Properties in Reinforcing Spatial Reasoning
+# [ECCV 2026] Unfold The World: Factorize 4D Properties in Reinforcing Spatial Reasoning
 
 <div align="center">
   <a href="https://arxiv.org/abs/"><img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg" alt="arXiv"></a>
