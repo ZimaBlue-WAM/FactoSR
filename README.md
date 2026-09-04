@@ -1,7 +1,7 @@
 # [ECCV 2026] Unfold The World: Factorize 4D Properties in Reinforcing Spatial Reasoning
 
 <div align="center">
-  <a href="https://arxiv.org/abs/"><img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg" alt="arXiv"></a>
+  <a href="https://arxiv.org/abs/2609.03729"><img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg" alt="arXiv"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License: Apache-2.0"></a>
 
   ![visitors](https://visitor-badge.laobi.icu/badge?page_id=scott-yjyang.FactoSR)
