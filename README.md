@@ -125,12 +125,11 @@ This project is built upon several excellent open-source works. We sincerely tha
 If you find it help, please cite and star this project. 😊
 
 ```
-@inproceedings{yang2026unfold,
-  title={Unfold The World: Factorize 4D Properties in Reinforcing Spatial Understanding},
-  author={Yang, Yijun and Zheng, Shenghe and Li, Wenbo and Liu, Jianhui and Sun, Haoze and Zhang, Yanbing and Jiang, Jiaxiu and Song, Lin and Huang, Haoyang and Duan, Nan and Zhu, Lei},
-  booktitle={European Conference on Computer Vision},
-  year={2026},
-  organization={Springer}
+@article{yang2026unfold,
+  title={Unfold The World: Factorize 4D Properties in Reinforcing Spatial Reasoning},
+  author={Yang, Yijun and Zheng, Shenghe and Li, Wenbo and Liu, Jianhui and Sun, Haoze and Zhang, Yanbing and Jiang, Jiaxiu and Song, Lin and Huang, Haoyang and Duan, Nan and others},
+  journal={arXiv preprint arXiv:2609.03729},
+  year={2026}
 }
 ```
 
